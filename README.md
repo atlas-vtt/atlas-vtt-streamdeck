@@ -18,7 +18,7 @@ Keys go dim with a plug in the corner while Atlas is not running, and with a key
 
 ## What you need
 
-- Atlas VTT with Stream Deck support, in the Obsidian desktop app, with **Sound** switched on in the command palette's **Experimental features**.
+- Atlas VTT with Stream Deck support, in the Obsidian desktop app.
 - In Obsidian: **Settings → Atlas VTT → Stream Deck → Control sound from a Stream Deck** switched on.
 - Stream Deck 7.1 or later (macOS 13+, Windows 10+), or OpenDeck 2.14 or later with Node.js 20 or later on Linux.
 
@@ -26,7 +26,7 @@ Keys go dim with a plug in the corner while Atlas is not running, and with a key
 
 ### Elgato Stream Deck app (macOS, Windows)
 
-1. Download `dev.atlas-vtt.sound.streamDeckPlugin` and double-click it. Stream Deck asks to install it.
+1. Download `dev.atlas-vtt.sound.streamDeckPlugin` from the [latest release](https://github.com/atlas-vtt/atlas-vtt-streamdeck/releases/latest) (or press **Get the plugin** in **Settings → Atlas VTT → Stream Deck**) and double-click it. Stream Deck asks to install it.
 2. Drag **Play mood** (category **Atlas VTT Sound**) onto a key.
 3. In the key's settings, press **Pair with Atlas**, switch to Obsidian and press **Allow** in the prompt.
 4. Pick a mood. Every other key works as soon as the plugin is paired once.
@@ -43,7 +43,7 @@ Elgato's app does not run on Linux; [OpenDeck](https://github.com/nekename/OpenD
    sudo udevadm control --reload-rules && sudo udevadm trigger
    ```
    Then plug the Stream Deck in again (or restart).
-3. Start OpenDeck, open **Plugins**, press the install-from-file button (arrow on a file) and pick `dev.atlas-vtt.sound.streamDeckPlugin`.
+3. Download `dev.atlas-vtt.sound.streamDeckPlugin` from the [latest release](https://github.com/atlas-vtt/atlas-vtt-streamdeck/releases/latest). Start OpenDeck, open **Plugins**, press the install-from-file button (arrow on a file) and pick it.
 4. Drag **Play mood** onto a key, click it, press **Pair with Atlas** and allow it in Obsidian.
 
 The plugin's log is in `~/.local/share/opendeck/logs/plugins/dev.atlas-vtt.sound.log`.
@@ -70,4 +70,6 @@ The protocol is Atlas' sound remote, version 1: its source is `src/app/soundRemo
 
 ## Licence
 
-Not chosen yet. Bundled third-party code and art are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Copyright (C) 2026 Fabian Urbanek.
+
+Atlas VTT Sound is free software: you can redistribute it and/or modify it under the terms of the [GNU Affero General Public License, version 3](LICENSE) (`AGPL-3.0-only`), the same licence as [Atlas VTT](https://github.com/atlas-vtt/atlas-vtt). It is distributed in the hope that it will be useful, but without any warranty; see the licence for details. Bundled third-party code and art keep their own licences, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

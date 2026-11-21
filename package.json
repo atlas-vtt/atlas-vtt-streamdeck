@@ -1,6 +1,7 @@
 {
   "name": "atlas-vtt-streamdeck",
   "version": "0.1.0",
+  "license": "AGPL-3.0-only",
   "private": true,
   "description": "Stream Deck plugin that controls Atlas VTT's music and ambience.",
   "type": "module",
