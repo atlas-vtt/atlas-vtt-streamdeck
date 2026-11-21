@@ -27,8 +27,11 @@ const PAIR_TEXT: Record<PairResult, string> = {
   offline: 'Atlas is not reachable.',
 };
 
+const SOUND_OFF_TEXT = 'Connected, but Sound is switched off in Atlas: turn it on in the command palette\'s Experimental features.';
+
 function status(message?: string): JsonObject {
-  return { event: 'status', link: atlas.link, text: message ?? STATUS_TEXT[atlas.link] };
+  const soundOff = atlas.link === 'connected' && atlas.state?.soundOn === false;
+  return { event: 'status', link: atlas.link, text: message ?? (soundOff ? SOUND_OFF_TEXT : STATUS_TEXT[atlas.link]) };
 }
 
 function tell(payload: JsonValue): void {
