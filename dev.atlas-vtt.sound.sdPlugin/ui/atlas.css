@@ -1,0 +1,14 @@
+.atlas-status {
+  margin: 0;
+  color: #b8b6bf;
+  font-size: 9pt;
+  line-height: 1.4;
+}
+
+.atlas-status[data-link="connected"] {
+  color: #e3b341;
+}
+
+.atlas-pair[hidden] {
+  display: none;
+}

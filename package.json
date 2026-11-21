@@ -1,0 +1,31 @@
+{
+  "name": "atlas-vtt-streamdeck",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Stream Deck plugin that controls Atlas VTT's music and ambience.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "watch": "node scripts/build.js --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test 'test/**/*.test.ts'",
+    "validate": "streamdeck validate dev.atlas-vtt.sound.sdPlugin",
+    "pack": "npm run build && streamdeck pack dev.atlas-vtt.sound.sdPlugin --output dist --force",
+    "link": "streamdeck link dev.atlas-vtt.sound.sdPlugin"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@elgato/streamdeck": "^3.0.6",
+    "@elgato/utils": "0.7.0"
+  },
+  "devDependencies": {
+    "@elgato/cli": "^1.10.5",
+    "@types/node": "^24.19.2",
+    "@types/ws": "^8.18.2",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "ws": "^8.23.0"
+  }
+}

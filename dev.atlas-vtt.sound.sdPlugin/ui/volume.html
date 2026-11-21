@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Volume</title>
+  <script src="sdpi-components.js"></script>
+  <link rel="stylesheet" href="atlas.css">
+</head>
+<body>
+  <sdpi-item label="Channel">
+    <sdpi-select setting="channel" default="master">
+      <option value="master">Master</option>
+      <option value="music">Music</option>
+      <option value="ambience">Ambience</option>
+      <option value="musicStrip">Music in the mix (players hear it too)</option>
+    </sdpi-select>
+  </sdpi-item>
+  <sdpi-item label="Step">
+    <sdpi-select setting="step" default="2">
+      <option value="1">+1 dB (a dial: 1 dB a notch)</option>
+      <option value="2">+2 dB (a dial: 2 dB a notch)</option>
+      <option value="5">+5 dB (a dial: 5 dB a notch)</option>
+      <option value="-1">−1 dB</option>
+      <option value="-2">−2 dB</option>
+      <option value="-5">−5 dB</option>
+      <option value="0">Back to 0 dB</option>
+    </sdpi-select>
+  </sdpi-item>
+  <script src="pairing.js"></script>
+</body>
+</html>

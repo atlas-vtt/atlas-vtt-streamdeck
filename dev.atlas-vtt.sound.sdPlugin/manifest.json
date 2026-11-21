@@ -1,0 +1,213 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "UUID": "dev.atlas-vtt.sound",
+  "Name": "Atlas VTT Sound",
+  "Version": "0.1.0.0",
+  "Author": "Atlas VTT",
+  "Description": "Play your Atlas VTT moods, stop, pause, skip and set levels from your Stream Deck. Keys show each mood's crest and light up while it plays.",
+  "URL": "https://atlas-vtt.dev",
+  "Icon": "imgs/plugin/icon",
+  "Category": "Atlas VTT Sound",
+  "CategoryIcon": "imgs/plugin/category",
+  "CodePath": "bin/plugin.js",
+  "SDKVersion": 3,
+  "Software": {
+    "MinimumVersion": "7.1"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "13"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Nodejs": {
+    "Version": "24",
+    "Debug": "enabled"
+  },
+  "Actions": [
+    {
+      "UUID": "dev.atlas-vtt.sound.mood",
+      "Name": "Play mood",
+      "Tooltip": "Plays one of your Atlas moods; its key lights up while the mood plays.",
+      "Icon": "imgs/actions/mood",
+      "PropertyInspectorPath": "ui/mood.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/mood",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.next-mood",
+      "Name": "Next mood",
+      "Tooltip": "Plays the mood after the one that plays.",
+      "Icon": "imgs/actions/next-mood",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/next-mood",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.stop-all",
+      "Name": "Stop all",
+      "Tooltip": "Stops all music and ambience; press again to bring it back.",
+      "Icon": "imgs/actions/stop-all",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/stop-all",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.play-pause",
+      "Name": "Play / pause music",
+      "Tooltip": "Pauses the music where it is and plays it on from there; the ambience goes on.",
+      "Icon": "imgs/actions/play-pause",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/play-pause",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.next-track",
+      "Name": "Next track",
+      "Tooltip": "Skips to the next track of the music.",
+      "Icon": "imgs/actions/next-track",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/next-track",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.previous-track",
+      "Name": "Previous track",
+      "Tooltip": "Goes back to the start of the track, or to the one before it.",
+      "Icon": "imgs/actions/previous-track",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/previous-track",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.shuffle",
+      "Name": "Shuffle",
+      "Tooltip": "Switches shuffle of the music on or off.",
+      "Icon": "imgs/actions/shuffle",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/shuffle",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.repeat",
+      "Name": "Repeat",
+      "Tooltip": "Repeats the list, one track, or nothing.",
+      "Icon": "imgs/actions/repeat",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/repeat",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.mute-music",
+      "Name": "Mute music",
+      "Tooltip": "Mutes the music while the ambience plays on.",
+      "Icon": "imgs/actions/mute-music",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/mute-music",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.volume",
+      "Name": "Volume",
+      "Tooltip": "Changes a level: master, music, ambience, or the music in the mix. Turn a Stream Deck + dial, push it for 0 dB.",
+      "Icon": "imgs/actions/volume",
+      "PropertyInspectorPath": "ui/volume.html",
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/volume",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "Encoder": {
+        "layout": "$B1",
+        "Icon": "imgs/actions/volume",
+        "TriggerDescription": {
+          "Rotate": "Change the level",
+          "Push": "Back to 0 dB",
+          "Touch": "Back to 0 dB"
+        }
+      }
+    }
+  ]
+}
