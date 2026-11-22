@@ -8,7 +8,7 @@ import { AtlasAction } from './base.ts';
  * A level: on a key, each press moves it by its step; on a Stream Deck + dial, each notch moves it and a push
  * or a tap on the touch strip puts it back to 0 dB, with the level and a bar on the strip.
  */
-@action({ UUID: 'dev.atlas-vtt.sound.volume' })
+@action({ UUID: 'dev.atlas-vtt.control.volume' })
 export class VolumeAction extends AtlasAction<VolumeSettings> {
   protected render(settings: VolumeSettings): string {
     const channel = channelOf(settings);

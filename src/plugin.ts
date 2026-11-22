@@ -18,7 +18,7 @@ const STATUS_TEXT: Record<AtlasConnection['link'], string> = {
   connected: 'Connected to Atlas.',
   unpaired: 'Atlas is running. Press Pair with Atlas, then allow it in Obsidian.',
   pairing: 'Switch to Obsidian and allow the Stream Deck there.',
-  offline: 'Atlas is not reachable. Start Obsidian, and switch on Settings → Atlas VTT → Stream Deck → Control sound from a Stream Deck.',
+  offline: 'Atlas is not reachable. Start Obsidian, and switch on Settings → Atlas VTT → Stream Deck → Control Atlas from a Stream Deck.',
 };
 
 const PAIR_TEXT: Record<PairResult, string> = {

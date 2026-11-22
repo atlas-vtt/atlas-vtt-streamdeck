@@ -1,14 +1,14 @@
 {
   "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
-  "UUID": "dev.atlas-vtt.sound",
-  "Name": "Atlas VTT Sound",
+  "UUID": "dev.atlas-vtt.control",
+  "Name": "Atlas VTT Control",
   "Version": "0.2.0.0",
   "Author": "Atlas VTT",
   "Description": "Control Atlas VTT from your Stream Deck: play moods, stop, pause, skip and set levels; start combat and roll initiative; present the map, freeze the players' camera, hide the map, show images and take them back; roll saved dice. Keys show what plays and light up while it does.",
   "URL": "https://atlas-vtt.dev",
   "SupportURL": "https://github.com/atlas-vtt/atlas-vtt-streamdeck/issues",
   "Icon": "imgs/plugin/icon",
-  "Category": "Atlas VTT Sound",
+  "Category": "Atlas VTT Control",
   "CategoryIcon": "imgs/plugin/category",
   "CodePath": "bin/plugin.js",
   "SDKVersion": 3,
@@ -30,7 +30,7 @@
   },
   "Actions": [
     {
-      "UUID": "dev.atlas-vtt.sound.mood",
+      "UUID": "dev.atlas-vtt.control.mood",
       "Name": "Play mood",
       "Tooltip": "Plays one of your Atlas moods; its key lights up while the mood plays.",
       "Icon": "imgs/actions/mood",
@@ -48,7 +48,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.stop-all",
+      "UUID": "dev.atlas-vtt.control.stop-all",
       "Name": "Stop all",
       "Tooltip": "Stops all music and ambience; press again to bring it back.",
       "Icon": "imgs/actions/stop-all",
@@ -66,7 +66,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.play-pause",
+      "UUID": "dev.atlas-vtt.control.play-pause",
       "Name": "Play / pause music",
       "Tooltip": "Pauses the music where it is and plays it on from there; the ambience goes on.",
       "Icon": "imgs/actions/play-pause",
@@ -84,7 +84,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.next-track",
+      "UUID": "dev.atlas-vtt.control.next-track",
       "Name": "Next track",
       "Tooltip": "Skips to the next track of the music.",
       "Icon": "imgs/actions/next-track",
@@ -102,7 +102,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.previous-track",
+      "UUID": "dev.atlas-vtt.control.previous-track",
       "Name": "Previous track",
       "Tooltip": "Goes back to the start of the track, or to the one before it.",
       "Icon": "imgs/actions/previous-track",
@@ -120,7 +120,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.shuffle",
+      "UUID": "dev.atlas-vtt.control.shuffle",
       "Name": "Shuffle",
       "Tooltip": "Switches shuffle of the music on or off.",
       "Icon": "imgs/actions/shuffle",
@@ -138,7 +138,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.repeat",
+      "UUID": "dev.atlas-vtt.control.repeat",
       "Name": "Repeat",
       "Tooltip": "Repeats the list, one track, or nothing.",
       "Icon": "imgs/actions/repeat",
@@ -156,7 +156,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.mute-music",
+      "UUID": "dev.atlas-vtt.control.mute-music",
       "Name": "Mute music",
       "Tooltip": "Mutes the music while the ambience plays on.",
       "Icon": "imgs/actions/mute-music",
@@ -174,7 +174,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.volume",
+      "UUID": "dev.atlas-vtt.control.volume",
       "Name": "Volume",
       "Tooltip": "Changes a level: master, music, ambience, or the music in the mix. Turn a Stream Deck + dial, push it for 0 dB.",
       "Icon": "imgs/actions/volume",
@@ -202,7 +202,7 @@
       }
     },
     {
-      "UUID": "dev.atlas-vtt.sound.combat",
+      "UUID": "dev.atlas-vtt.control.combat",
       "Name": "Start / end combat",
       "Tooltip": "Starts the fight on the map in front of you, or ends the one that runs; lit with the round while a fight runs.",
       "Icon": "imgs/actions/combat",
@@ -220,7 +220,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.roll-initiative",
+      "UUID": "dev.atlas-vtt.control.roll-initiative",
       "Name": "Roll initiative",
       "Tooltip": "Rolls every combatant's initiative, as the tracker's Roll button does.",
       "Icon": "imgs/actions/roll-initiative",
@@ -238,7 +238,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.present",
+      "UUID": "dev.atlas-vtt.control.present",
       "Name": "Present map",
       "Tooltip": "Shows players the map in front of you, opening the player window; lit while they see it.",
       "Icon": "imgs/actions/present",
@@ -256,7 +256,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.freeze",
+      "UUID": "dev.atlas-vtt.control.freeze",
       "Name": "Freeze camera",
       "Tooltip": "Keeps players on the view they see now; press again to let it follow you.",
       "Icon": "imgs/actions/freeze",
@@ -274,7 +274,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.curtain",
+      "UUID": "dev.atlas-vtt.control.curtain",
       "Name": "Hide the map",
       "Tooltip": "Lowers the curtain in the player window, so players see black; press again to reveal the map.",
       "Icon": "imgs/actions/curtain",
@@ -292,7 +292,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.handout",
+      "UUID": "dev.atlas-vtt.control.handout",
       "Name": "Show / take back image",
       "Tooltip": "Shows players the image under the pointer in Obsidian; while they see an image or loot, takes it back.",
       "Icon": "imgs/actions/handout",
@@ -310,7 +310,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.roll",
+      "UUID": "dev.atlas-vtt.control.roll",
       "Name": "Roll dice",
       "Tooltip": "Rolls one of the saved rolls of the Atlas map in front, as the dice tray does.",
       "Icon": "imgs/actions/roll",
@@ -328,7 +328,7 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.share-rolls",
+      "UUID": "dev.atlas-vtt.control.share-rolls",
       "Name": "Show my rolls to players",
       "Tooltip": "Switches whether players see your dice rolls; lit while they do.",
       "Icon": "imgs/actions/share-rolls",

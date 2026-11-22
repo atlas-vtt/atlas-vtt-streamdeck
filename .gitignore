@@ -1,5 +1,5 @@
 node_modules/
 dist/
-dev.atlas-vtt.sound.sdPlugin/bin/
-dev.atlas-vtt.sound.sdPlugin/logs/
+dev.atlas-vtt.control.sdPlugin/bin/
+dev.atlas-vtt.control.sdPlugin/logs/
 *.log

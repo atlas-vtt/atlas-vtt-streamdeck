@@ -3,16 +3,16 @@
   "version": "0.2.0",
   "license": "AGPL-3.0-only",
   "private": true,
-  "description": "Stream Deck plugin that controls Atlas VTT's music and ambience.",
+  "description": "Stream Deck plugin that runs the Atlas VTT table: music and ambience, combat, the player window, handouts and dice.",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.js",
     "watch": "node scripts/build.js --watch",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"test/**/*.test.ts\"",
-    "validate": "streamdeck validate dev.atlas-vtt.sound.sdPlugin",
-    "pack": "npm run build && streamdeck pack dev.atlas-vtt.sound.sdPlugin --output dist --force",
-    "link": "streamdeck link dev.atlas-vtt.sound.sdPlugin"
+    "validate": "streamdeck validate dev.atlas-vtt.control.sdPlugin",
+    "pack": "npm run build && streamdeck pack dev.atlas-vtt.control.sdPlugin --output dist --force",
+    "link": "streamdeck link dev.atlas-vtt.control.sdPlugin"
   },
   "engines": {
     "node": ">=24"

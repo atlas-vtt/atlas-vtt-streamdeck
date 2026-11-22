@@ -11,7 +11,7 @@ import { WebSocketServer, type WebSocket } from 'ws';
 
 const ATLAS_PORT = 47_950 + Math.floor(Math.random() * 40);
 const TOKEN = 'a'.repeat(64);
-const PLUGIN = 'dev.atlas-vtt.sound';
+const PLUGIN = 'dev.atlas-vtt.control';
 
 type Message = { event: string; context?: string; payload?: Record<string, unknown>; id?: string };
 
@@ -112,7 +112,7 @@ test('pairs, lists moods, lights the key that plays and sends a press', async ()
   const port = typeof address === 'object' && address ? address.port : 0;
   const info = { application: { font: '', language: 'en', platform: 'linux', platformVersion: '6', version: '7.1.0' }, plugin: { uuid: PLUGIN, version: '0.1.0.0' }, devicePixelRatio: 2, colors: {}, devices: [{ id: 'deck', name: 'Deck', size: { columns: 5, rows: 3 }, type: 0 }] };
   plugin = spawn(process.execPath, ['bin/plugin.js', '-port', String(port), '-pluginUUID', PLUGIN, '-registerEvent', 'registerPlugin', '-info', JSON.stringify(info)], {
-    cwd: 'dev.atlas-vtt.sound.sdPlugin',
+    cwd: 'dev.atlas-vtt.control.sdPlugin',
     env: { ...process.env, ATLAS_REMOTE_PORT: String(ATLAS_PORT) },
     stdio: 'ignore',
   });

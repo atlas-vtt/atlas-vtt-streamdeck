@@ -9,7 +9,7 @@ export type RollSettings = { rollId?: string };
  * Rolls a saved roll of the Atlas map in front, by its id, as the dice tray does. A collection keeps its own
  * rolls, so the key goes faint on a map whose collection has no roll of that id.
  */
-@action({ UUID: 'dev.atlas-vtt.sound.roll' })
+@action({ UUID: 'dev.atlas-vtt.control.roll' })
 export class RollAction extends AtlasAction<RollSettings> {
   protected render(settings: RollSettings): string {
     const roll = this.atlas.state?.rolls?.find((one) => one.id === settings.rollId) ?? null;
