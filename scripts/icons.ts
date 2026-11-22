@@ -22,8 +22,8 @@ const listIcon = (name: GlyphName): string => `<svg xmlns="http://www.w3.org/200
 const ICONS: Record<string, GlyphName> = {
   'stop-all': 'square', 'play-pause': 'pause', 'next-track': 'skipForward',
   'previous-track': 'skipBack', shuffle: 'shuffle', repeat: 'repeat', 'mute-music': 'volume', volume: 'volume',
-  combat: 'swords', 'roll-initiative': 'dices', present: 'eye', freeze: 'pause', curtain: 'blinds', 'take-back-handout': 'imageOff',
-  'show-image': 'imagePlay', roll: 'dices', 'share-rolls': 'dice',
+  combat: 'swords', 'roll-initiative': 'dices', present: 'eye', freeze: 'pause', curtain: 'blinds', handout: 'imagePlay',
+  roll: 'dices', 'share-rolls': 'dice',
 };
 for (const [file, name] of Object.entries(ICONS)) writeFileSync(`${ROOT}/actions/${file}.svg`, listIcon(name));
 writeFileSync(`${ROOT}/actions/mood.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 512 512"><path d="${SWORD}" fill="#ffffff"/></svg>`);

@@ -4,7 +4,7 @@
   "Name": "Atlas VTT Sound",
   "Version": "0.2.0.0",
   "Author": "Atlas VTT",
-  "Description": "Control Atlas VTT from your Stream Deck: play moods, stop, pause, skip and set levels; start combat and roll initiative; present the map, freeze the players' camera, hide the map and show images; roll saved dice. Keys show what plays and light up while it does.",
+  "Description": "Control Atlas VTT from your Stream Deck: play moods, stop, pause, skip and set levels; start combat and roll initiative; present the map, freeze the players' camera, hide the map, show images and take them back; roll saved dice. Keys show what plays and light up while it does.",
   "URL": "https://atlas-vtt.dev",
   "SupportURL": "https://github.com/atlas-vtt/atlas-vtt-streamdeck/issues",
   "Icon": "imgs/plugin/icon",
@@ -292,35 +292,17 @@
       "UserTitleEnabled": false
     },
     {
-      "UUID": "dev.atlas-vtt.sound.take-back-handout",
-      "Name": "Take back handout",
-      "Tooltip": "Takes the image or loot players are shown away again.",
-      "Icon": "imgs/actions/take-back-handout",
+      "UUID": "dev.atlas-vtt.sound.handout",
+      "Name": "Show / take back image",
+      "Tooltip": "Shows players the image under the pointer in Obsidian; while they see an image or loot, takes it back.",
+      "Icon": "imgs/actions/handout",
       "PropertyInspectorPath": "ui/control.html",
       "Controllers": [
         "Keypad"
       ],
       "States": [
         {
-          "Image": "imgs/keys/take-back-handout",
-          "ShowTitle": false
-        }
-      ],
-      "SupportedInMultiActions": true,
-      "UserTitleEnabled": false
-    },
-    {
-      "UUID": "dev.atlas-vtt.sound.show-image",
-      "Name": "Show hovered image",
-      "Tooltip": "Shows players the image under the pointer in Obsidian, as Display on player view does.",
-      "Icon": "imgs/actions/show-image",
-      "PropertyInspectorPath": "ui/control.html",
-      "Controllers": [
-        "Keypad"
-      ],
-      "States": [
-        {
-          "Image": "imgs/keys/show-image",
+          "Image": "imgs/keys/handout",
           "ShowTitle": false
         }
       ],

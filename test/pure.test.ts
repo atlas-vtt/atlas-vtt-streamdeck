@@ -44,9 +44,13 @@ test('combat and player window keys follow the table and go faint without it', (
   assert.equal(look('freeze', { ...state, player: { ...player, trueScale: true } }).idle, true);
   assert.equal(look('curtain', { ...state, player: { ...player, hidden: true } }).label, 'Reveal the map');
   assert.equal(look('curtain', { ...state, player: { ...player, open: false } }).idle, true);
-  assert.equal(look('take-back-handout', { ...state, player }).idle, true);
-  assert.equal(look('take-back-handout', { ...state, player: { ...player, handout: true } }).idle, false);
-  assert.equal(look('show-image', null).idle, false);
+  assert.deepEqual(look('handout', { ...state, player }), { glyph: 'imagePlay', label: 'Show image', lit: false, idle: false });
+  assert.deepEqual(look('handout', { ...state, player: { ...player, handout: true } }), { glyph: 'imageOff', label: 'Take back', lit: true, idle: false });
+  assert.equal(look('handout', null).idle, false, 'an Atlas that sends no player part still shows images');
+  const press = (s: State | null) => { const { command } = CONTROLS.find((spec) => spec.uuid.endsWith('.handout'))!; return typeof command === 'function' ? command(s) : command; };
+  assert.deepEqual(press({ ...state, player }), { type: 'showHoveredImage' });
+  assert.deepEqual(press({ ...state, player: { ...player, handout: true } }), { type: 'takeBackHandout' });
+  assert.deepEqual(press(null), { type: 'showHoveredImage' });
   assert.equal(look('share-rolls', { ...state, rollsShown: true }).label, 'Rolls shown');
   assert.equal(look('share-rolls', { ...state, rollsShown: false }).lit, false);
   assert.equal(look('share-rolls', state).idle, true);

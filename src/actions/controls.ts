@@ -14,7 +14,7 @@ export function controlAction(spec: ControlSpec, atlas: AtlasConnection): AtlasA
     }
 
     protected press(): Promise<CommandResult> {
-      return this.atlas.send(spec.command);
+      return this.atlas.send(typeof spec.command === 'function' ? spec.command(this.atlas.state) : spec.command);
     }
   }
   return new Control(atlas);

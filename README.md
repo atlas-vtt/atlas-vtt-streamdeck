@@ -17,8 +17,7 @@ Control the music and ambience of [Atlas VTT](https://atlas-vtt.dev) from an Elg
 | **Present map** | Shows players that map, opening the player window when it is closed; lit while they see it. | |
 | **Freeze camera** | Keeps players on the view they see now, and lets it follow you again (Unfreeze, lit). Faint while the player window is closed or TrueScale pins it. | |
 | **Hide the map** | Lowers the player window's curtain so players see black; lit while it is down, and a second press reveals the map. | |
-| **Take back handout** | Takes back the image or loot players are shown; faint while there is none. | |
-| **Show hovered image** | Point at an image anywhere in Obsidian (a note, a statblock, an image tab) and press: players are shown it, as Display on player view does, online players too. Flashes if the pointer rests on no image. | |
+| **Show / take back image** | Point at an image anywhere in Obsidian (a note, a statblock, an image tab) and press: players are shown it, as Display on player view does, online players too. While players see an image or loot, the key reads Take back (lit) and a press takes it away. Flashes if the pointer rests on no image. | |
 | **Roll dice** | Rolls the saved roll you pick from the list (the saved rolls of the map in front), as the dice tray does, 3D dice and all. Shows its die, colour and name. The key keeps the roll's id: on a map of another collection it goes faint unless that collection has a roll with the same id. | |
 | **Show my rolls to players** | The dice tray's switch: lit while players see your rolls (Rolls shown), faint on an Atlas without it. | |
 

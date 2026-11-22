@@ -162,7 +162,7 @@ test('pairs, lists moods, lights the key that plays and sends a press', async ()
   assert.deepEqual(commands.at(-1), { type: 'combat' });
 
   // A press Atlas refuses (no image under the pointer) flashes the key's alert.
-  const show = { action: `${PLUGIN}.show-image`, context: 'key-4', device: 'deck' };
+  const show = { action: `${PLUGIN}.handout`, context: 'key-4', device: 'deck' };
   send({ event: 'willAppear', ...show, payload: { controller: 'Keypad', coordinates: { column: 3, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });
   const before = received.length;
   send({ event: 'keyDown', ...show, payload: { coordinates: { column: 3, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });

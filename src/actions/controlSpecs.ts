@@ -4,7 +4,8 @@ import type { ControlLook } from '../render/keys.ts';
 /** A key that sends one command and shows one state: its look is a function of what Atlas says plays. */
 export interface ControlSpec {
   uuid: string;
-  command: Command;
+  /** What a press sends; a key whose press depends on the table (Show / take back) reads it from the state. */
+  command: Command | ((state: State | null) => Command);
   look(state: State | null, moods: readonly Mood[]): Omit<ControlLook, 'link'>;
 }
 
@@ -12,6 +13,7 @@ const noMusic = (state: State | null): boolean => !state?.music;
 /** Atlas sends `combat: null` while there is no map to act on. */
 const noMap = (state: State | null): boolean => !state?.combat;
 const noCombatants = (state: State | null): boolean => noMap(state) || state?.combat?.combatants === 0;
+const shown = (state: State | null): boolean => state?.player?.handout === true;
 const noWindow = (state: State | null): boolean => state?.player?.open !== true;
 
 const REPEAT_LOOK = {
@@ -101,15 +103,14 @@ export const CONTROLS: readonly ControlSpec[] = [
     },
   },
   {
-    uuid: 'dev.atlas-vtt.sound.take-back-handout',
-    command: { type: 'takeBackHandout' },
-    look: (state) => ({ glyph: 'imageOff', label: 'Take back', lit: false, idle: state?.player?.handout !== true }),
-  },
-  {
-    uuid: 'dev.atlas-vtt.sound.show-image',
-    command: { type: 'showHoveredImage' },
-    // What the pointer rests on is known only at the press, so the key is never faint; a press over no image flashes the alert.
-    look: () => ({ glyph: 'imagePlay', label: 'Show image', lit: false, idle: false }),
+    // One key for handouts: while players are shown an image or loot it takes it back, otherwise it shows them the image under
+    // the pointer. What the pointer rests on is known only at the press, so the key is never faint; a press over no image
+    // flashes the alert.
+    uuid: 'dev.atlas-vtt.sound.handout',
+    command: (state) => ({ type: shown(state) ? 'takeBackHandout' : 'showHoveredImage' }),
+    look: (state) => shown(state)
+      ? { glyph: 'imageOff', label: 'Take back', lit: true, idle: false }
+      : { glyph: 'imagePlay', label: 'Show image', lit: false, idle: false },
   },
   {
     uuid: 'dev.atlas-vtt.sound.share-rolls',
