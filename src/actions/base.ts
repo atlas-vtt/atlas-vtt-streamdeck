@@ -1,5 +1,5 @@
 import type { JsonObject } from '@elgato/utils';
-import { SingletonAction, type Action, type KeyDownEvent, type DidReceiveSettingsEvent, type WillAppearEvent, type WillDisappearEvent } from '@elgato/streamdeck';
+import streamDeck, { SingletonAction, type Action, type KeyDownEvent, type DidReceiveSettingsEvent, type WillAppearEvent, type WillDisappearEvent } from '@elgato/streamdeck';
 import type { AtlasConnection, CommandResult } from '../atlas/connection.ts';
 import { imageOf } from '../render/keys.ts';
 
@@ -48,7 +48,9 @@ export abstract class AtlasAction<T extends JsonObject> extends SingletonAction<
   }
 
   protected async answer(action: Action<T>, result: CommandResult): Promise<void> {
-    if (result !== 'ok' && (action.isKey() || action.isDial())) await action.showAlert();
+    if (result === 'ok') return;
+    streamDeck.logger.info(`${this.manifestId}: Atlas answered ${result}`);
+    if (action.isKey() || action.isDial()) await action.showAlert();
   }
 
   protected redraw(): void {
@@ -58,8 +60,22 @@ export abstract class AtlasAction<T extends JsonObject> extends SingletonAction<
   protected draw(action: Action<T>, settings: T): void {
     if (!action.isKey()) return;
     const image = imageOf(this.render(settings));
-    if (this.shown.get(action.id) === image) return;
-    this.shown.set(action.id, image);
-    void action.setImage(image).catch(() => this.shown.delete(action.id));
+    if (!this.changed(action.id, image)) return;
+    void action.setImage(image).catch(() => this.forget(action.id));
+  }
+
+  /**
+   * Remembers what an instance shows and says whether it differs from before, so a key or strip is sent only
+   * what changed (Elgato asks for at most 10 updates a second).
+   */
+  protected changed(id: string, shown: string): boolean {
+    if (this.shown.get(id) === shown) return false;
+    this.shown.set(id, shown);
+    return true;
+  }
+
+  /** Lets go of what an instance showed, so the next draw sends it again. */
+  protected forget(id: string): void {
+    this.shown.delete(id);
   }
 }

@@ -1,4 +1,4 @@
-import type { Link, Mood } from '../atlas/protocol.ts';
+import type { Link, Mood, Roll } from '../atlas/protocol.ts';
 import { GLYPHS, type GlyphName } from './glyphs.ts';
 
 /**
@@ -98,6 +98,45 @@ export function moodKey({ mood, active, link }: MoodLook): string {
     ? `${floor(tone, 0.85)}${crest}${ring(INK)}${nameLabel(mood.name, INK)}`
     : `${floor(tone, 0.12)}${crest}${nameLabel(mood.name, INK)}`;
   return svg(`${dimmed(body, link !== 'connected')}${linkBadge(link)}`);
+}
+
+/** A die's outline around (72, 50), by its faces, as the tray's row draws a die's body. */
+export function dieOutline(sides: number | null): string {
+  const corners = (count: number, turn: number, radius = 38): string => Array.from({ length: count }, (_, i) => {
+    const angle = turn + (i * 2 * Math.PI) / count;
+    return `${(72 + radius * Math.cos(angle)).toFixed(1)},${(50 + radius * Math.sin(angle)).toFixed(1)}`;
+  }).join(' ');
+  if (sides === 4) return `<polygon points="${corners(3, -Math.PI / 2, 42)}"/>`;
+  if (sides === 6) return '<rect x="42" y="20" width="60" height="60" rx="10"/>';
+  if (sides === 8) return `<polygon points="${corners(4, -Math.PI / 2)}"/>`;
+  if (sides === 10 || sides === 100) return '<polygon points="72,12 108,46 72,88 36,46"/>';
+  if (sides === 12) return `<polygon points="${corners(5, -Math.PI / 2)}"/>`;
+  if (sides === null) return '<rect x="42" y="20" width="60" height="60" rx="30"/>';
+  return `<polygon points="${corners(6, -Math.PI / 2)}"/>`;
+}
+
+export interface RollLookOptions {
+  /** The saved roll, while the map in front's collection has it; null draws a placeholder. */
+  roll: Roll | null;
+  /** Whether a key has been given a roll at all. */
+  chosen: boolean;
+  link: Link;
+}
+
+/** A saved roll's key: the body of its first die in its colour, how many and what else at its corners, its name below. */
+export function rollKey({ roll, chosen, link }: RollLookOptions): string {
+  if (!roll) {
+    const body = `${floor()}${glyph('dices', 48, 26, 48, MUTED)}${label(chosen ? 'Not here' : 'Choose', 112, MUTED, 18)}${label(chosen ? 'on this map' : 'a roll', 132, MUTED, 18)}`;
+    return svg(`${dimmed(body, link !== 'connected')}${linkBadge(link)}`);
+  }
+  const { look } = roll;
+  const fill = look.colour ?? 'none';
+  const die = `<g fill="${escapeXml(fill)}" fill-opacity="${look.colour ? 0.85 : 0}" stroke="${INK}" stroke-width="4" stroke-linejoin="round">${dieOutline(look.sides)}</g>`;
+  const faces = look.sides === null ? '' : `<text x="72" y="58" text-anchor="middle" font-family="${FONT}" font-weight="700" font-size="22" fill="${INK}">${look.sides}</text>`;
+  const mark = (text: string, x: number, anchor: string, y: number): string => (text ? `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${FONT}" font-weight="700" font-size="17" fill="${GOLD}">${escapeXml(fit(text, 7))}</text>` : '');
+  const count = mark(look.count > 1 ? `${look.count}×` : '', 12, 'start', 26);
+  const rest = mark(`${look.rule}${look.rest}`, 132, 'end', 90);
+  return svg(`${dimmed(`${floor()}${die}${faces}${count}${rest}${nameLabel(roll.name, INK)}`, link !== 'connected')}${linkBadge(link)}`);
 }
 
 export interface ControlLook {

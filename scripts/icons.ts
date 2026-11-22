@@ -5,7 +5,7 @@
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { CONTROLS } from '../src/actions/controlSpecs.ts';
-import { glyph, controlKey, levelKey, moodKey } from '../src/render/keys.ts';
+import { glyph, controlKey, levelKey, moodKey, rollKey } from '../src/render/keys.ts';
 import type { GlyphName } from '../src/render/glyphs.ts';
 
 const ROOT = 'dev.atlas-vtt.sound.sdPlugin/imgs';
@@ -20,8 +20,10 @@ mkdirSync(`${ROOT}/plugin`, { recursive: true });
 const listIcon = (name: GlyphName): string => `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">${glyph(name, 4, 4, 32, '#ffffff')}</svg>`;
 
 const ICONS: Record<string, GlyphName> = {
-  'next-mood': 'fastForward', 'stop-all': 'square', 'play-pause': 'pause', 'next-track': 'skipForward',
+  'stop-all': 'square', 'play-pause': 'pause', 'next-track': 'skipForward',
   'previous-track': 'skipBack', shuffle: 'shuffle', repeat: 'repeat', 'mute-music': 'volume', volume: 'volume',
+  combat: 'swords', 'roll-initiative': 'dices', present: 'eye', freeze: 'pause', curtain: 'blinds', 'take-back-handout': 'imageOff',
+  'show-image': 'imagePlay', roll: 'dices', 'share-rolls': 'dice',
 };
 for (const [file, name] of Object.entries(ICONS)) writeFileSync(`${ROOT}/actions/${file}.svg`, listIcon(name));
 writeFileSync(`${ROOT}/actions/mood.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 512 512"><path d="${SWORD}" fill="#ffffff"/></svg>`);
@@ -33,5 +35,6 @@ for (const spec of CONTROLS) {
   writeFileSync(`${ROOT}/keys/${file}.svg`, controlKey({ ...spec.look(null, []), idle: false, link: 'connected' }));
 }
 writeFileSync(`${ROOT}/keys/mood.svg`, moodKey({ mood: { id: '', name: 'Mood', tone: { light: '#a16207', dark: '#e3b341' }, crest: SWORD }, active: false, link: 'connected' }));
+writeFileSync(`${ROOT}/keys/roll.svg`, rollKey({ roll: { id: '', name: 'Attack', formula: '1d20+5', look: { sides: 20, count: 1, rule: '', rest: '+5', colour: null } }, chosen: true, link: 'connected' }));
 writeFileSync(`${ROOT}/keys/volume.svg`, levelKey({ label: 'Master', db: 0, range: [-60, 6], step: '+2 dB', link: 'connected' }));
 console.log('Images written to', ROOT);

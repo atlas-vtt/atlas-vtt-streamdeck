@@ -1,4 +1,4 @@
-import { action, type Action, type DialDownEvent, type DialRotateEvent, type TouchTapEvent } from '@elgato/streamdeck';
+import { action, type Action, type DialDownEvent, type DialRotateEvent, type FeedbackPayload, type TouchTapEvent } from '@elgato/streamdeck';
 import type { CommandResult } from '../atlas/connection.ts';
 import { CHANNEL_NAMES, channelOf, levelOf, stepOf, type VolumeSettings } from './levels.ts';
 import { formatDb, glyphIcon, imageOf, levelKey, levelShare } from '../render/keys.ts';
@@ -43,11 +43,13 @@ export class VolumeAction extends AtlasAction<VolumeSettings> {
     const channel = channelOf(settings);
     const { db, range } = levelOf(this.atlas.state, channel);
     const offline = this.atlas.link !== 'connected';
-    void action.setFeedback({
+    const feedback: FeedbackPayload = {
       title: CHANNEL_NAMES[channel],
       value: offline ? (this.atlas.link === 'offline' ? 'Offline' : 'Not paired') : db === null ? '–' : formatDb(db),
       indicator: { value: db === null || offline ? 0 : Math.round(levelShare(db, range) * 100), opacity: offline ? 0.3 : 1 },
       icon: imageOf(glyphIcon(db !== null && db <= range[0] ? 'volumeMuted' : 'volume')),
-    }).catch(() => undefined);
+    };
+    if (!this.changed(action.id, JSON.stringify(feedback))) return;
+    void action.setFeedback(feedback).catch(() => this.forget(action.id));
   }
 }

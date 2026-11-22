@@ -2,10 +2,11 @@
   "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
   "UUID": "dev.atlas-vtt.sound",
   "Name": "Atlas VTT Sound",
-  "Version": "0.1.0.0",
+  "Version": "0.2.0.0",
   "Author": "Atlas VTT",
-  "Description": "Play your Atlas VTT moods, stop, pause, skip and set levels from your Stream Deck. Keys show each mood's crest and light up while it plays.",
+  "Description": "Control Atlas VTT from your Stream Deck: play moods, stop, pause, skip and set levels; start combat and roll initiative; present the map, freeze the players' camera, hide the map and show images; roll saved dice. Keys show what plays and light up while it does.",
   "URL": "https://atlas-vtt.dev",
+  "SupportURL": "https://github.com/atlas-vtt/atlas-vtt-streamdeck/issues",
   "Icon": "imgs/plugin/icon",
   "Category": "Atlas VTT Sound",
   "CategoryIcon": "imgs/plugin/category",
@@ -43,24 +44,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
-    },
-    {
-      "UUID": "dev.atlas-vtt.sound.next-mood",
-      "Name": "Next mood",
-      "Tooltip": "Plays the mood after the one that plays.",
-      "Icon": "imgs/actions/next-mood",
-      "PropertyInspectorPath": "ui/control.html",
-      "Controllers": [
-        "Keypad"
-      ],
-      "States": [
-        {
-          "Image": "imgs/keys/next-mood",
-          "ShowTitle": false
-        }
-      ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.stop-all",
@@ -77,7 +62,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.play-pause",
@@ -94,7 +80,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.next-track",
@@ -111,7 +98,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.previous-track",
@@ -128,7 +116,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.shuffle",
@@ -145,7 +134,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.repeat",
@@ -162,7 +152,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.mute-music",
@@ -179,7 +170,8 @@
           "ShowTitle": false
         }
       ],
-      "SupportedInMultiActions": true
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     },
     {
       "UUID": "dev.atlas-vtt.sound.volume",
@@ -198,6 +190,7 @@
         }
       ],
       "SupportedInMultiActions": true,
+      "UserTitleEnabled": false,
       "Encoder": {
         "layout": "$B1",
         "Icon": "imgs/actions/volume",
@@ -207,6 +200,168 @@
           "Touch": "Back to 0 dB"
         }
       }
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.combat",
+      "Name": "Start / end combat",
+      "Tooltip": "Starts the fight on the map in front of you, or ends the one that runs; lit with the round while a fight runs.",
+      "Icon": "imgs/actions/combat",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/combat",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.roll-initiative",
+      "Name": "Roll initiative",
+      "Tooltip": "Rolls every combatant's initiative, as the tracker's Roll button does.",
+      "Icon": "imgs/actions/roll-initiative",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/roll-initiative",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.present",
+      "Name": "Present map",
+      "Tooltip": "Shows players the map in front of you, opening the player window; lit while they see it.",
+      "Icon": "imgs/actions/present",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/present",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.freeze",
+      "Name": "Freeze camera",
+      "Tooltip": "Keeps players on the view they see now; press again to let it follow you.",
+      "Icon": "imgs/actions/freeze",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/freeze",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.curtain",
+      "Name": "Hide the map",
+      "Tooltip": "Lowers the curtain in the player window, so players see black; press again to reveal the map.",
+      "Icon": "imgs/actions/curtain",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/curtain",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.take-back-handout",
+      "Name": "Take back handout",
+      "Tooltip": "Takes the image or loot players are shown away again.",
+      "Icon": "imgs/actions/take-back-handout",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/take-back-handout",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.show-image",
+      "Name": "Show hovered image",
+      "Tooltip": "Shows players the image under the pointer in Obsidian, as Display on player view does.",
+      "Icon": "imgs/actions/show-image",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/show-image",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.roll",
+      "Name": "Roll dice",
+      "Tooltip": "Rolls one of the saved rolls of the Atlas map in front, as the dice tray does.",
+      "Icon": "imgs/actions/roll",
+      "PropertyInspectorPath": "ui/roll.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/roll",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
+    },
+    {
+      "UUID": "dev.atlas-vtt.sound.share-rolls",
+      "Name": "Show my rolls to players",
+      "Tooltip": "Switches whether players see your dice rolls; lit while they do.",
+      "Icon": "imgs/actions/share-rolls",
+      "PropertyInspectorPath": "ui/control.html",
+      "Controllers": [
+        "Keypad"
+      ],
+      "States": [
+        {
+          "Image": "imgs/keys/share-rolls",
+          "ShowTitle": false
+        }
+      ],
+      "SupportedInMultiActions": true,
+      "UserTitleEnabled": false
     }
   ]
 }

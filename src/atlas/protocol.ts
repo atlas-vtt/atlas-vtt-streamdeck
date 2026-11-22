@@ -13,7 +13,9 @@ export type Repeat = 'all' | 'one' | 'off';
 
 export type Command =
   | { type: 'mood'; id: string }
-  | { type: 'nextMood' | 'stopAll' | 'pause' | 'nextTrack' | 'previousTrack' | 'shuffle' | 'repeat' | 'muteMusic' }
+  | { type: 'roll'; id: string }
+  | { type: 'stopAll' | 'pause' | 'nextTrack' | 'previousTrack' | 'shuffle' | 'repeat' | 'muteMusic' }
+  | { type: 'combat' | 'rollInitiative' | 'present' | 'freeze' | 'curtain' | 'takeBackHandout' | 'showHoveredImage' | 'shareRolls' }
   | { type: 'level'; channel: Channel; db?: number; deltaDb?: number; reset?: true };
 
 export interface Mood {
@@ -33,6 +35,46 @@ export interface Music {
   track: string | null;
 }
 
+/** The fight on the map the GM has in front. */
+export interface Combat {
+  active: boolean;
+  round: number;
+  combatants: number;
+  /** The map's rules roll numbers; a fight by sides or by cards rolls nothing. */
+  rolls: boolean;
+}
+
+/** The local player window, as its bar in Atlas shows it. */
+export interface Player {
+  open: boolean;
+  /** The map the GM has in front is the one players are shown. */
+  presented: boolean;
+  frozen: boolean;
+  /** TrueScale pins the players' camera: no freezing then. */
+  trueScale: boolean;
+  /** The curtain is down: players see black. */
+  hidden: boolean;
+  /** Players are shown an image or loot. */
+  handout: boolean;
+}
+
+/** How a saved roll's place in Atlas' dice tray draws it: its first die, how many, its rule, the rest, a designed die's colour. */
+export interface RollLook {
+  sides: number | null;
+  count: number;
+  rule: string;
+  rest: string;
+  colour: string | null;
+}
+
+/** A saved roll of the map in front's collection. */
+export interface Roll {
+  id: string;
+  name: string;
+  formula: string;
+  look: RollLook;
+}
+
 export interface State {
   soundOn: boolean;
   mood: string | null;
@@ -42,6 +84,14 @@ export interface State {
   nowPlaying: string | null;
   levels: { masterDb: number; musicDb: number; ambienceDb: number };
   ranges: { channel: [number, number]; strip: [number, number] };
+  /** Null while there is no map to act on; absent from an Atlas without combat keys. */
+  combat?: Combat | null;
+  /** Absent from an Atlas without player window keys. */
+  player?: Player;
+  /** The saved rolls of the map in front's collection; absent from an Atlas without dice keys. */
+  rolls?: Roll[];
+  /** "Show my rolls to players" is on. */
+  rollsShown?: boolean;
 }
 
 /** Where the plugin stands with Atlas. */

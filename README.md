@@ -7,12 +7,20 @@ Control the music and ambience of [Atlas VTT](https://atlas-vtt.dev) from an Elg
 | Action | Key | Dial (Stream Deck +) |
 | --- | --- | --- |
 | **Play mood** | Plays the mood you pick from the list Atlas sends. Shows its crest, colour and name; lit while it plays. | |
-| **Next mood** | Plays the mood after the one that plays; shows which one comes next. | |
 | **Stop all** | Stops all music and ambience; lit while stopped, and a second press brings everything back. | |
 | **Play / pause music** | Pauses the music where it is (the ambience plays on) and goes on from there. Shows the track. | |
 | **Next track**, **Previous track** | Skip through the music's list. | |
 | **Shuffle**, **Repeat**, **Mute music** | Switch them; lit while on. Repeat goes all → one → off. | |
 | **Volume** | Moves a level by its step (±1, 2 or 5 dB, or back to 0 dB): Master, Music, Ambience (this computer's levels), or the music in the mix (which online players hear too). | Turn to change the level, push or tap the strip for 0 dB; the strip shows the level and a bar. |
+| **Start / end combat** | Starts the fight on the Atlas map in front of you (else the one open), exactly as the tracker's Start button; ends it while one runs, lit with the round. Faint without a map or combatants. | |
+| **Roll initiative** | Rolls every combatant as the tracker's Roll button does, statblock modifiers included. Faint where the map's rules roll nothing (sides, cards). | |
+| **Present map** | Shows players that map, opening the player window when it is closed; lit while they see it. | |
+| **Freeze camera** | Keeps players on the view they see now, and lets it follow you again (Unfreeze, lit). Faint while the player window is closed or TrueScale pins it. | |
+| **Hide the map** | Lowers the player window's curtain so players see black; lit while it is down, and a second press reveals the map. | |
+| **Take back handout** | Takes back the image or loot players are shown; faint while there is none. | |
+| **Show hovered image** | Point at an image anywhere in Obsidian (a note, a statblock, an image tab) and press: players are shown it, as Display on player view does, online players too. Flashes if the pointer rests on no image. | |
+| **Roll dice** | Rolls the saved roll you pick from the list (the saved rolls of the map in front), as the dice tray does, 3D dice and all. Shows its die, colour and name. The key keeps the roll's id: on a map of another collection it goes faint unless that collection has a roll with the same id. | |
+| **Show my rolls to players** | The dice tray's switch: lit while players see your rolls (Rolls shown), faint on an Atlas without it. | |
 
 Keys go dim with a plug in the corner while Atlas is not running, and with a key in the corner while the plugin is not paired.
 
@@ -26,7 +34,7 @@ Keys go dim with a plug in the corner while Atlas is not running, and with a key
 
 ### Elgato Stream Deck app (macOS, Windows)
 
-1. Download `dev.atlas-vtt.sound.streamDeckPlugin` from the [latest release](https://github.com/atlas-vtt/atlas-vtt-streamdeck/releases/latest) (or press **Get the plugin** in **Settings → Atlas VTT → Stream Deck**) and double-click it. Stream Deck asks to install it.
+1. Download `dev.atlas-vtt.sound.streamDeckPlugin` from [atlas-vtt.dev/stream-deck](https://atlas-vtt.dev/stream-deck) (or press **Get the plugin** in **Settings → Atlas VTT → Stream Deck**) and double-click it. Stream Deck asks to install it.
 2. Drag **Play mood** (category **Atlas VTT Sound**) onto a key.
 3. In the key's settings, press **Pair with Atlas**, switch to Obsidian and press **Allow** in the prompt.
 4. Pick a mood. Every other key works as soon as the plugin is paired once.
@@ -43,7 +51,7 @@ Elgato's app does not run on Linux; [OpenDeck](https://github.com/nekename/OpenD
    sudo udevadm control --reload-rules && sudo udevadm trigger
    ```
    Then plug the Stream Deck in again (or restart).
-3. Download `dev.atlas-vtt.sound.streamDeckPlugin` from the [latest release](https://github.com/atlas-vtt/atlas-vtt-streamdeck/releases/latest). Start OpenDeck, open **Plugins**, press the install-from-file button (arrow on a file) and pick it.
+3. Download `dev.atlas-vtt.sound.streamDeckPlugin` from [atlas-vtt.dev/stream-deck](https://atlas-vtt.dev/stream-deck). Start OpenDeck, open **Plugins**, press the install-from-file button (arrow on a file) and pick it.
 4. Drag **Play mood** onto a key, click it, press **Pair with Atlas** and allow it in Obsidian.
 
 The plugin's log is in `~/.local/share/opendeck/logs/plugins/dev.atlas-vtt.sound.log`.

@@ -4,6 +4,7 @@ import { AtlasConnection, type PairResult } from './atlas/connection.ts';
 import { controlAction } from './actions/controls.ts';
 import { CONTROLS } from './actions/controlSpecs.ts';
 import { MoodAction } from './actions/mood.ts';
+import { RollAction } from './actions/roll.ts';
 import { VolumeAction } from './actions/volume.ts';
 
 type GlobalSettings = { token?: string };
@@ -34,16 +35,21 @@ function status(message?: string): JsonObject {
   return { event: 'status', link: atlas.link, text: message ?? (soundOff ? SOUND_OFF_TEXT : STATUS_TEXT[atlas.link]) };
 }
 
+/** The roll picker's list: the saved rolls of the map in front, named with what they roll. */
+const rollItems = (): JsonObject => ({ event: 'rolls', items: (atlas.state?.rolls ?? []).map((roll) => ({ label: `${roll.name} (${roll.formula})`, value: roll.id })) });
+
 function tell(payload: JsonValue): void {
   // Nothing listens while no property inspector is open.
   if (streamDeck.ui.action) void streamDeck.ui.sendToPropertyInspector(payload).catch(() => undefined);
 }
 
-/** Messages from the property inspectors: the mood list for the picker, the pairing panel. */
+/** Messages from the property inspectors: the mood and roll lists for the pickers, the pairing panel. */
 streamDeck.ui.onSendToPlugin<{ event?: string }>((ev) => {
   const { event } = ev.payload as { event?: string };
   if (event === 'moods') {
     tell({ event: 'moods', items: atlas.moods.map((mood) => ({ label: mood.name, value: mood.id })) });
+  } else if (event === 'rolls') {
+    tell(rollItems());
   } else if (event === 'status') {
     tell(status());
   } else if (event === 'pair') {
@@ -52,9 +58,30 @@ streamDeck.ui.onSendToPlugin<{ event?: string }>((ev) => {
   }
 });
 
-let lastMoods = '';
-atlas.onChange(() => {
+// A panel asks for the status as it loads, and the host may tell the plugin it appeared only after
+// that ask (OpenDeck does), when there was no panel to answer yet: answer again once it has.
+streamDeck.ui.onDidAppear(() => {
   tell(status());
+  tell({ event: 'moods', items: atlas.moods.map((mood) => ({ label: mood.name, value: mood.id })) });
+  tell(rollItems());
+});
+
+let lastMoods = '';
+let lastRolls = '';
+let lastLink = atlas.link;
+atlas.onChange(() => {
+  if (atlas.link !== lastLink) {
+    lastLink = atlas.link;
+    streamDeck.logger.info(`Atlas: ${atlas.link}`);
+  }
+  tell(status());
+  // An open roll picker follows the map in front and rolls saved or renamed in Atlas.
+  const rolls = rollItems();
+  const rollsText = JSON.stringify(rolls);
+  if (rollsText !== lastRolls) {
+    lastRolls = rollsText;
+    tell(rolls);
+  }
   // An open mood picker follows moods added or renamed in Atlas.
   const moods = JSON.stringify(atlas.moods.map((mood) => [mood.id, mood.name]));
   if (moods === lastMoods) return;
@@ -63,6 +90,7 @@ atlas.onChange(() => {
 });
 
 streamDeck.actions.registerAction(new MoodAction(atlas));
+streamDeck.actions.registerAction(new RollAction(atlas));
 streamDeck.actions.registerAction(new VolumeAction(atlas));
 for (const spec of CONTROLS) streamDeck.actions.registerAction(controlAction(spec, atlas));
 

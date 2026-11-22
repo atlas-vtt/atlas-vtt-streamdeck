@@ -1,6 +1,6 @@
 {
   "name": "atlas-vtt-streamdeck",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "AGPL-3.0-only",
   "private": true,
   "description": "Stream Deck plugin that controls Atlas VTT's music and ambience.",
@@ -9,7 +9,7 @@
     "build": "node scripts/build.js",
     "watch": "node scripts/build.js --watch",
     "typecheck": "tsc --noEmit",
-    "test": "node --test 'test/**/*.test.ts'",
+    "test": "node --test \"test/**/*.test.ts\"",
     "validate": "streamdeck validate dev.atlas-vtt.sound.sdPlugin",
     "pack": "npm run build && streamdeck pack dev.atlas-vtt.sound.sdPlugin --output dist --force",
     "link": "streamdeck link dev.atlas-vtt.sound.sdPlugin"

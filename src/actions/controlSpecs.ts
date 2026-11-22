@@ -8,14 +8,11 @@ export interface ControlSpec {
   look(state: State | null, moods: readonly Mood[]): Omit<ControlLook, 'link'>;
 }
 
-/** The mood a press of Next mood brings: the one after the mood that plays, else the first. */
-export function nextMood(state: State | null, moods: readonly Mood[]): Mood | null {
-  if (moods.length === 0) return null;
-  const index = moods.findIndex((mood) => mood.id === state?.mood);
-  return moods[(index + 1) % moods.length] ?? null;
-}
-
 const noMusic = (state: State | null): boolean => !state?.music;
+/** Atlas sends `combat: null` while there is no map to act on. */
+const noMap = (state: State | null): boolean => !state?.combat;
+const noCombatants = (state: State | null): boolean => noMap(state) || state?.combat?.combatants === 0;
+const noWindow = (state: State | null): boolean => state?.player?.open !== true;
 
 const REPEAT_LOOK = {
   all: { glyph: 'repeat', label: 'Repeat all' },
@@ -24,11 +21,6 @@ const REPEAT_LOOK = {
 } as const;
 
 export const CONTROLS: readonly ControlSpec[] = [
-  {
-    uuid: 'dev.atlas-vtt.sound.next-mood',
-    command: { type: 'nextMood' },
-    look: (state, moods) => ({ glyph: 'fastForward', label: 'Next mood', lit: false, idle: moods.length === 0, caption: nextMood(state, moods)?.name ?? null }),
-  },
   {
     uuid: 'dev.atlas-vtt.sound.stop-all',
     command: { type: 'stopAll' },
@@ -73,6 +65,58 @@ export const CONTROLS: readonly ControlSpec[] = [
     look: (state) => {
       const muted = state?.music?.muted === true;
       return { glyph: muted ? 'volumeMuted' : 'volume', label: muted ? 'Unmute' : 'Mute music', lit: muted, idle: noMusic(state) };
+    },
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.combat',
+    command: { type: 'combat' },
+    look: (state) => state?.combat?.active
+      ? { glyph: 'flag', label: 'End combat', lit: true, idle: false, caption: `Round ${state.combat.round}` }
+      : { glyph: 'swords', label: 'Start combat', lit: false, idle: noCombatants(state) },
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.roll-initiative',
+    command: { type: 'rollInitiative' },
+    look: (state) => ({ glyph: 'dices', label: 'Roll initiative', lit: false, idle: noCombatants(state) || state?.combat?.rolls !== true }),
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.present',
+    command: { type: 'present' },
+    look: (state) => ({ glyph: 'eye', label: 'Present map', lit: state?.player?.presented === true, idle: noMap(state) }),
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.freeze',
+    command: { type: 'freeze' },
+    look: (state) => {
+      const frozen = state?.player?.frozen === true;
+      return { glyph: frozen ? 'play' : 'pause', label: frozen ? 'Unfreeze' : 'Freeze camera', lit: frozen, idle: noWindow(state) || state?.player?.trueScale === true };
+    },
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.curtain',
+    command: { type: 'curtain' },
+    look: (state) => {
+      const hidden = state?.player?.hidden === true;
+      return { glyph: 'blinds', label: hidden ? 'Reveal the map' : 'Hide the map', lit: hidden, idle: noWindow(state) };
+    },
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.take-back-handout',
+    command: { type: 'takeBackHandout' },
+    look: (state) => ({ glyph: 'imageOff', label: 'Take back', lit: false, idle: state?.player?.handout !== true }),
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.show-image',
+    command: { type: 'showHoveredImage' },
+    // What the pointer rests on is known only at the press, so the key is never faint; a press over no image flashes the alert.
+    look: () => ({ glyph: 'imagePlay', label: 'Show image', lit: false, idle: false }),
+  },
+  {
+    uuid: 'dev.atlas-vtt.sound.share-rolls',
+    command: { type: 'shareRolls' },
+    look: (state) => {
+      const shown = state?.rollsShown === true;
+      return { glyph: 'dice', label: shown ? 'Rolls shown' : 'Rolls hidden', lit: shown, idle: state?.rollsShown === undefined };
     },
   },
 ];

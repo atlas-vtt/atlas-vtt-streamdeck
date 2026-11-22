@@ -17,7 +17,11 @@ type Message = { event: string; context?: string; payload?: Record<string, unkno
 
 const commands: unknown[] = [];
 const streams = new Set<http.ServerResponse>();
-let state = { soundOn: true, mood: null as string | null, playing: false, stopped: false, music: null, nowPlaying: null, levels: { masterDb: 0, musicDb: 0, ambienceDb: 0 }, ranges: { channel: [-60, 6], strip: [-60, 12] } };
+let state = {
+  soundOn: true, mood: null as string | null, playing: false, stopped: false, music: null, nowPlaying: null, levels: { masterDb: 0, musicDb: 0, ambienceDb: 0 }, ranges: { channel: [-60, 6], strip: [-60, 12] },
+  combat: { active: false, round: 0, combatants: 2, rolls: true },
+  rolls: [{ id: 'attack', name: 'Attack', formula: '1d20+5', look: { sides: 20, count: 1, rule: '', rest: '+5', colour: null } }],
+};
 const moods = [{ id: 'tavern', name: 'Tavern', tone: { light: '#b45309', dark: '#f5a524' }, crest: 'M0 0h512v512H0z' }];
 
 const atlas = http.createServer((request, response) => {
@@ -48,8 +52,13 @@ const atlas = http.createServer((request, response) => {
   let body = '';
   request.on('data', (chunk: Buffer) => { body += chunk.toString(); });
   request.on('end', () => {
-    commands.push(JSON.parse(body));
-    state = { ...state, mood: 'tavern', playing: true };
+    const command = JSON.parse(body) as { type: string };
+    commands.push(command);
+    if (command.type === 'showHoveredImage') {
+      response.writeHead(409).end(JSON.stringify({ error: 'no-image' }));
+      return;
+    }
+    state = command.type === 'combat' ? { ...state, combat: { ...state.combat, active: true, round: 1 } } : { ...state, mood: 'tavern', playing: true };
     for (const stream of streams) stream.write(`event: state\ndata: ${JSON.stringify(state)}\n\n`);
     response.writeHead(204).end();
   });
@@ -133,4 +142,51 @@ test('pairs, lists moods, lights the key that plays and sends a press', async ()
   const lit = await sent((m) => m.event === 'setImage' && m.context === 'key-1', pressed);
   assert.deepEqual(commands, [{ type: 'mood', id: 'tavern' }]);
   assert.ok(image(lit).includes('stroke-width="6"'), 'lit once Atlas says it plays');
+
+  // OpenDeck: the panel asks for the status before the host says it appeared; the answer comes once it has.
+  send({ event: 'propertyInspectorDidDisappear', ...key });
+  const other = { action: `${PLUGIN}.play-pause`, context: 'key-2', device: 'deck' };
+  send({ event: 'willAppear', ...other, payload: { controller: 'Keypad', coordinates: { column: 1, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });
+  const asked = received.length;
+  send({ event: 'sendToPlugin', ...other, payload: { event: 'status' } });
+  send({ event: 'propertyInspectorDidAppear', ...other });
+  const answer = await sent((m) => m.event === 'sendToPropertyInspector' && m.context === 'key-2' && m.payload?.event === 'status', asked);
+  assert.equal(answer.payload?.link, 'connected');
+
+  // The combat key starts the fight and shows its round once Atlas says it runs.
+  const combat = { action: `${PLUGIN}.combat`, context: 'key-3', device: 'deck' };
+  send({ event: 'willAppear', ...combat, payload: { controller: 'Keypad', coordinates: { column: 2, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });
+  await sent((m) => m.event === 'setImage' && m.context === 'key-3' && image(m).includes('Start combat'));
+  send({ event: 'keyDown', ...combat, payload: { coordinates: { column: 2, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });
+  await sent((m) => m.event === 'setImage' && m.context === 'key-3' && image(m).includes('End combat') && image(m).includes('Round 1'));
+  assert.deepEqual(commands.at(-1), { type: 'combat' });
+
+  // A press Atlas refuses (no image under the pointer) flashes the key's alert.
+  const show = { action: `${PLUGIN}.show-image`, context: 'key-4', device: 'deck' };
+  send({ event: 'willAppear', ...show, payload: { controller: 'Keypad', coordinates: { column: 3, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });
+  const before = received.length;
+  send({ event: 'keyDown', ...show, payload: { coordinates: { column: 3, row: 0 }, isInMultiAction: false, settings: {}, state: 0 } });
+  await sent((m) => m.event === 'showAlert' && m.context === 'key-4', before);
+  assert.deepEqual(commands.at(-1), { type: 'showHoveredImage' });
+
+  // The roll picker lists the saved rolls of the map in front, and a press rolls the one picked.
+  const dice = { action: `${PLUGIN}.roll`, context: 'key-5', device: 'deck' };
+  send({ event: 'willAppear', ...dice, payload: { controller: 'Keypad', coordinates: { column: 4, row: 0 }, isInMultiAction: false, settings: { rollId: 'attack' }, state: 0 } });
+  send({ event: 'propertyInspectorDidAppear', ...dice });
+  const asking = received.length;
+  send({ event: 'sendToPlugin', ...dice, payload: { event: 'rolls' } });
+  const rolls = await sent((m) => m.event === 'sendToPropertyInspector' && m.payload?.event === 'rolls', asking);
+  assert.deepEqual(rolls.payload?.items, [{ label: 'Attack (1d20+5)', value: 'attack' }]);
+  await sent((m) => m.event === 'setImage' && m.context === 'key-5' && image(m).includes('Attack'));
+  send({ event: 'keyDown', ...dice, payload: { coordinates: { column: 4, row: 0 }, isInMultiAction: false, settings: { rollId: 'attack' }, state: 0 } });
+  await until(() => JSON.stringify(commands.at(-1)) === JSON.stringify({ type: 'roll', id: 'attack' }));
 });
+
+/** Waits until `ready` holds, for what the plugin sends Atlas rather than the host. */
+async function until(ready: () => boolean): Promise<void> {
+  const deadline = Date.now() + 8000;
+  while (!ready()) {
+    if (Date.now() > deadline) throw new Error('Never happened');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+  }
+}
