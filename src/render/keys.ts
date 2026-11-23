@@ -167,6 +167,8 @@ export interface LevelLook {
   range: [number, number];
   /** What a press does: "+2 dB", "−2 dB", "0 dB". */
   step: string;
+  /** Said in place of the level while there is none to move ("No layers"). */
+  empty?: string;
   link: Link;
 }
 
@@ -178,10 +180,11 @@ export const levelShare = (db: number, [min, max]: [number, number]): number => 
 /** A level key: the channel, its level now, a bar, and what a press does. */
 export function levelKey(look: LevelLook): string {
   const share = look.db === null ? 0 : levelShare(look.db, look.range);
-  const value = look.db === null ? '–' : formatDb(look.db);
+  const value = look.db === null ? (look.empty || '–') : formatDb(look.db);
+  const valueSize = look.db === null && look.empty ? 20 : 30;
   const body = `${floor()}${glyph(look.db === look.range[0] ? 'volumeMuted' : 'volume', 14, 12, 28, MUTED)}`
     + `<text x="130" y="34" text-anchor="end" font-family="${FONT}" font-weight="700" font-size="20" fill="${GOLD}">${escapeXml(look.step)}</text>`
-    + `<text x="72" y="82" text-anchor="middle" font-family="${FONT}" font-weight="700" font-size="30" fill="${INK}">${escapeXml(value)}</text>`
+    + `<text x="72" y="82" text-anchor="middle" font-family="${FONT}" font-weight="700" font-size="${valueSize}" fill="${INK}">${escapeXml(value)}</text>`
     + `<rect x="16" y="96" width="112" height="10" rx="5" fill="#000" fill-opacity="0.5"/>`
     + `<rect x="16" y="96" width="${Math.max(10, Math.round(112 * share))}" height="10" rx="5" fill="${GOLD}"/>`
     + `<text x="72" y="132" text-anchor="middle" font-family="${FONT}" font-size="17" fill="${MUTED}">${escapeXml(fit(look.label, 16))}</text>`;

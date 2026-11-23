@@ -11,7 +11,7 @@ Run the table of [Atlas VTT](https://atlas-vtt.dev) from an Elgato Stream Deck: 
 | **Play / pause music** | Pauses the music where it is (the ambience plays on) and goes on from there. Shows the track. | |
 | **Next track**, **Previous track** | Skip through the music's list. | |
 | **Shuffle**, **Repeat**, **Mute music** | Switch them; lit while on. Repeat goes all → one → off. | |
-| **Volume** | Moves a level by its step (±1, 2 or 5 dB, or back to 0 dB): Master, Music, Ambience (this computer's levels), or the music in the mix (which online players hear too). | Turn to change the level, push or tap the strip for 0 dB; the strip shows the level and a bar. |
+| **Volume** | Moves a level by its step (±1, 2 or 5 dB, or back to 0 dB): Master (this computer), Music (the Sound page's Music fader) or Ambience (every ambience layer of the mix at once; the key shows the loudest). Online players hear Music and Ambience too. | Turn to change the level, push or tap the strip for 0 dB; the strip shows the level and a bar. |
 | **Start / end combat** | Starts the fight on the Atlas map in front of you (else the one open), exactly as the tracker's Start button; ends it while one runs, lit with the round. Faint without a map or combatants. | |
 | **Roll initiative** | Rolls every combatant as the tracker's Roll button does, statblock modifiers included. Faint where the map's rules roll nothing (sides, cards). | |
 | **Present map** | Shows players that map, opening the player window when it is closed; lit while they see it. | |

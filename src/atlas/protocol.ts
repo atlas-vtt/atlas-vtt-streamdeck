@@ -8,7 +8,11 @@ export const ATLAS_HOST = '127.0.0.1';
 export const REMOTE_HEADER = 'x-atlas-remote';
 export const API_VERSION = 1;
 
-export type Channel = 'master' | 'music' | 'ambience' | 'musicStrip';
+/**
+ * `master` is this computer's level; `music` is the Sound page's Music fader and `ambience` moves every ambience layer
+ * alike (players hear both). Atlas reads `musicStrip`, which 0.2.0 sent for "Music in mix", as `music`.
+ */
+export type Channel = 'master' | 'music' | 'ambience';
 export type Repeat = 'all' | 'one' | 'off';
 
 export type Command =
@@ -82,7 +86,8 @@ export interface State {
   stopped: boolean;
   music: Music | null;
   nowPlaying: string | null;
-  levels: { masterDb: number; musicDb: number; ambienceDb: number };
+  /** Master, the Music fader and the loudest ambience layer; null where the mix has no music or no layers. */
+  levels: { masterDb: number; musicDb: number | null; ambienceDb: number | null };
   ranges: { channel: [number, number]; strip: [number, number] };
   /** Null while there is no map to act on; absent from an Atlas without combat keys. */
   combat?: Combat | null;

@@ -1,6 +1,6 @@
-import { action, type Action, type DialDownEvent, type DialRotateEvent, type FeedbackPayload, type TouchTapEvent } from '@elgato/streamdeck';
+import { action, type Action, type DialDownEvent, type DialRotateEvent, type FeedbackPayload, type TouchTapEvent, type WillAppearEvent } from '@elgato/streamdeck';
 import type { CommandResult } from '../atlas/connection.ts';
-import { CHANNEL_NAMES, channelOf, levelOf, stepOf, type VolumeSettings } from './levels.ts';
+import { CHANNEL_NAMES, channelOf, EMPTY_CHANNEL, levelOf, migratedSettings, stepOf, type VolumeSettings } from './levels.ts';
 import { formatDb, glyphIcon, imageOf, levelKey, levelShare } from '../render/keys.ts';
 import { AtlasAction } from './base.ts';
 
@@ -10,10 +10,17 @@ import { AtlasAction } from './base.ts';
  */
 @action({ UUID: 'dev.atlas-vtt.control.volume' })
 export class VolumeAction extends AtlasAction<VolumeSettings> {
+  /** A key saved with 0.2.0's "Music in mix" is a Music key; its settings say so, so the inspector shows Music. */
+  override onWillAppear(ev: WillAppearEvent<VolumeSettings>): void {
+    const migrated = migratedSettings(ev.payload.settings);
+    if (migrated) void ev.action.setSettings(migrated).catch(() => undefined);
+    super.onWillAppear(migrated ? { ...ev, payload: { ...ev.payload, settings: migrated } } as WillAppearEvent<VolumeSettings> : ev);
+  }
+
   protected render(settings: VolumeSettings): string {
     const channel = channelOf(settings);
     const step = stepOf(settings, false);
-    return levelKey({ label: CHANNEL_NAMES[channel], ...levelOf(this.atlas.state, channel), step: step === 0 ? '0 dB' : formatDb(step), link: this.atlas.link });
+    return levelKey({ label: CHANNEL_NAMES[channel], ...levelOf(this.atlas.state, channel), step: step === 0 ? '0 dB' : formatDb(step), empty: EMPTY_CHANNEL[channel], link: this.atlas.link });
   }
 
   protected press(settings: VolumeSettings): Promise<CommandResult> {
@@ -45,7 +52,7 @@ export class VolumeAction extends AtlasAction<VolumeSettings> {
     const offline = this.atlas.link !== 'connected';
     const feedback: FeedbackPayload = {
       title: CHANNEL_NAMES[channel],
-      value: offline ? (this.atlas.link === 'offline' ? 'Offline' : 'Not paired') : db === null ? '–' : formatDb(db),
+      value: offline ? (this.atlas.link === 'offline' ? 'Offline' : 'Not paired') : db === null ? (EMPTY_CHANNEL[channel] || '–') : formatDb(db),
       indicator: { value: db === null || offline ? 0 : Math.round(levelShare(db, range) * 100), opacity: offline ? 0.3 : 1 },
       icon: imageOf(glyphIcon(db !== null && db <= range[0] ? 'volumeMuted' : 'volume')),
     };

@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { CONTROLS } from '../src/actions/controlSpecs.ts';
-import { channelOf, levelOf, stepOf } from '../src/actions/levels.ts';
+import { channelOf, levelOf, migratedSettings, stepOf } from '../src/actions/levels.ts';
 import type { Mood, State } from '../src/atlas/protocol.ts';
 import { EventStreamReader } from '../src/atlas/sse.ts';
-import { fit, formatDb, levelShare, moodKey, rollKey, twoLines } from '../src/render/keys.ts';
+import { fit, formatDb, levelKey, levelShare, moodKey, rollKey, twoLines } from '../src/render/keys.ts';
 
 const mood = (id: string, name = id): Mood => ({ id, name, tone: { light: '#000', dark: '#fff' }, crest: 'M0 0h512v512H0z' });
 const state: State = {
@@ -65,11 +65,26 @@ test('levels read the channel, its range and the step from the inspector\'s text
   assert.equal(stepOf({ step: '-5' }, false), -5);
   assert.equal(stepOf({ step: '-5' }, true), 5);
   assert.equal(stepOf({}, false), 2);
-  assert.deepEqual(levelOf(state, 'musicStrip'), { db: -4, range: [-60, 12] });
+  assert.deepEqual(levelOf(state, 'music'), { db: 0, range: [-60, 6] });
   assert.deepEqual(levelOf(state, 'ambience'), { db: -12, range: [-60, 6] });
+  assert.deepEqual(levelOf({ ...state, levels: { ...state.levels, ambienceDb: null } }, 'ambience'), { db: null, range: [-60, 6] });
   assert.equal(levelShare(-27, [-60, 6]), 0.5);
   assert.equal(formatDb(-6), '−6 dB');
   assert.equal(formatDb(3), '+3 dB');
+});
+
+test('a key saved as 0.2.0\'s Music in mix is a Music key', () => {
+  assert.equal(channelOf({ channel: 'musicStrip' }), 'music');
+  assert.deepEqual(migratedSettings({ channel: 'musicStrip', step: '5' }), { channel: 'music', step: '5' });
+  assert.equal(migratedSettings({ channel: 'ambience' }), null);
+  assert.equal(migratedSettings({}), null);
+});
+
+test('a level key without a level says why', () => {
+  const look = { label: 'Ambience', range: [-60, 6] as [number, number], step: '+2 dB', link: 'connected' as const };
+  assert.match((levelKey({ ...look, db: null, empty: 'No layers' })), /No layers/);
+  assert.match((levelKey({ ...look, db: -7, empty: 'No layers' })), /−7 dB/);
+  assert.match((levelKey({ ...look, db: null })), />–</);
 });
 
 test('names are escaped and fitted to a key', () => {
