@@ -2,7 +2,7 @@
   "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
   "UUID": "dev.atlas-vtt.control",
   "Name": "Atlas VTT Control",
-  "Version": "0.2.0.0",
+  "Version": "0.2.1.0",
   "Author": "Atlas VTT",
   "Description": "Control Atlas VTT from your Stream Deck: play moods, stop, pause, skip and set levels; start combat and roll initiative; present the map, freeze the players' camera, hide the map, show images and take them back; roll saved dice. Keys show what plays and light up while it does.",
   "URL": "https://atlas-vtt.dev",

@@ -1,6 +1,6 @@
 {
   "name": "atlas-vtt-streamdeck",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "AGPL-3.0-only",
   "private": true,
   "description": "Stream Deck plugin that runs the Atlas VTT table: music and ambience, combat, the player window, handouts and dice.",
